@@ -7,46 +7,21 @@ public class mainPRUEBA{
         //MEMORIA DE VARIABLES
         ArrayList<String> variables = new ArrayList<>();
         ArrayList<Double> valores = new ArrayList<>();
-        
-        mainPRUEBA instance = new mainPRUEBA();
+        Variable variable = new Variable();
 
-        instance.addVariable("x", 2.0, variables, valores);
-
-        instance.mostrarVariables(variables, valores);
-    }
-
-    //MUESTRA LAS VARIABLES Y SUS VALORES
-    public void mostrarVariables(ArrayList<String> variables, ArrayList<Double> valores) {
-        for (int i = 0; i < variables.size(); i++) {
-            System.out.println(variables.get(i) + " = " + valores.get(i));
+        variable.VALOR("x", 6, variables, valores);
+        variable.mostrarVariables(variables, valores);
+        try {
+                var tokens = Lexer.tokenize("SUMAR(3+4*5-1/2)");
+                ValidadorMatematico validador = new ValidadorMatematico();
+                validador.validar(tokens);
+                System.out.println("Número de argumentos: " + validador.contador);
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
-    }
-    //AGREGA UNA VARIABLE A LA MEMORIA
-    public void addVariable(String nombre, double valor, ArrayList<String> variables, ArrayList<Double> valores) {
-        variables.add(nombre);
-        valores.add(valor);
+
     }
 
-    //ELIMINA UNA VARIABLE DE LA MEMORIA
-    public void eliminarVariable(String nombre, ArrayList<String> variables, ArrayList<Double> valores) {
-        int index = variables.indexOf(nombre);
-        if (index != -1) {
-            variables.remove(index);
-            valores.remove(index);
-        } else {
-            System.out.println("Variable no encontrada");
-        }
-    }
-
-    //ENCUENTRA EL VALOR DE UNA VARIABLE
-    public void valorVariable(String nombre, double valor, ArrayList<String> variables, ArrayList<Double> valores) {
-        int index = variables.indexOf(nombre);
-        if (index != -1) {
-            valores.set(index, valor);
-        } else {
-            System.out.println("Variable no encontrada");
-        }
-    }
 
     //OPERACIONES MATEMATICAS
     public double SUMAR(double a, double b){
