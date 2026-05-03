@@ -11,7 +11,7 @@ public class ValidadorMatematico {
         this.tokens = tokens;
         this.pos = 0;
         parseExpression();
-        if (pos < tokens.size() - 1) throw new Exception("Error: Contenido inesperado al final.");
+        if (pos < tokens.size() - 1) throw new Exception("Contenido inesperado al final.");
     }
 
     private void parseExpression() throws Exception {
@@ -31,7 +31,7 @@ public class ValidadorMatematico {
         
         // Validar si la función está vacía o le falta un dato tras un operador
         if (lookahead().type == TokenType.PAREN_CIERRA) {
-            throw new Exception("Faltan datos: La función no contiene numeros ni operadores con los que trabajar");
+            throw new Exception("La función no contiene numeros ni operadores con los que trabajar");
         }
         while (lookahead().type != TokenType.PAREN_CIERRA) {
             parseExpression(); // Recursión para argumentos complejos
@@ -40,6 +40,10 @@ public class ValidadorMatematico {
                 // Si después de una operador sigue un cierre de paréntesis, falta un dato
                 if (lookahead().type == TokenType.PAREN_CIERRA) {
                     throw new Exception("¡CASI! Se esperaba un número/variable después del operador [+, -, /, *] en la posicion: " + pos);
+                }
+                else if (lookahead().type == TokenType.OPERADOR) {
+                    throw new Exception("¡Operador duplicado! [+, -, /, *]" + "\n" 
+                    + "SE RECOMIENDA: Eliminar operador sobrante en posicion: " + (pos+1));
                 }
             } else if (lookahead().type != TokenType.PAREN_CIERRA) {
                 throw new Exception("Se esperaba un operador [+, -, *, /] o el parentesis de cierre [')']");
@@ -58,7 +62,9 @@ public class ValidadorMatematico {
     // VERIFICA EL TIPO DE TOKEN
     private void match(TokenType type) throws Exception {
         if (lookahead().type == type) pos++;
-        else throw new Exception("Error: Se esperaba un parentesis de apertura en posicion: " + pos);
+        else throw new Exception("Se esperaba un parentesis de apertura en posicion: " + pos + "\n"
+            + "SE RECOMIENDA: Tras colocar la funcion agregar " + "(" + "\n"
+            + "POR EJEMPLO: SUMAR(");
     } 
 
     // VALIDA SI ES UNA OPERACION O UNA VARIBLE
@@ -79,8 +85,8 @@ public class ValidadorMatematico {
         }
     }
     
-    // LISTA DE PALABRAS PARA IDENTIFICAR TOKEN DE FUNCIONES
+    // LISTA DE PALABRAS PARA IDENTIFICAR TOKEN DE OPERACION
     private boolean esFuncion(String nombre){
-        return nombre.equals("PRIMERO") || nombre.equals("SUMAR") || nombre.equals("RESTAR") || nombre.equals("MULTIPLICAR") || nombre.equals("DIVIDIR");
+        return nombre.equals("OPERACION") || nombre.equals("SUMAR") || nombre.equals("RESTAR") || nombre.equals("MULTIPLICAR") || nombre.equals("DIVIDIR") || nombre.equals("PRIMERO");
     }
 }
