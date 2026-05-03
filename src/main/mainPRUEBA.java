@@ -1,24 +1,29 @@
-import java.util.ArrayList;
+package main;
+import java.util.List;
+import java.util.Scanner;
+import lexer.*;
+import parser.ValidadorMatematico;
 
 public class mainPRUEBA{
-
+    
     public static void main(String[] args) {
 
-        //MEMORIA DE VARIABLES
-        ArrayList<String> variables = new ArrayList<>();
-        ArrayList<Double> valores = new ArrayList<>();
-        Variable variable = new Variable();
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
 
-        variable.VALOR("x", 6, variables, valores);
-        variable.mostrarVariables(variables, valores);
-        try {
-                var tokens = Lexer.tokenize("SUMAR(3+4*5-1/2)");
-                ValidadorMatematico validador = new ValidadorMatematico();
-                validador.validar(tokens);
-                System.out.println("Número de argumentos: " + validador.contador);
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
+        do { 
+            try {
+                System.out.println("Escribe la operacion que deseas realizar: ");
+                input = scanner.nextLine();
+                
+                List<Token> tokens = Lexer.tokenize(input);
+                    ValidadorMatematico validador = new ValidadorMatematico();
+                    validador.validar(tokens);
+                    
+                } catch (Exception e) {
+                    System.out.println("ERROR: " + e.getMessage());
+            }
+        } while (input != "salir");
 
     }
 
