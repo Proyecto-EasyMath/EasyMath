@@ -19,7 +19,7 @@ public class Lexer {
                 tokens.add(new Token(TokenType.PAREN_ABRE, "("));
             } else if (matcher.group("PARENR") != null) {
                 tokens.add(new Token(TokenType.PAREN_CIERRA, ")"));
-            } else if (matcher.group("OP") != null) { // Identifica que tipo Operador es
+            } else if (matcher.group("OP") != null) {
                     tokens.add(new Token(TokenType.OPERADOR, "+")); 
             } else if (matcher.group("SKIP") != null) {
                 continue; // Ignoramos los espacios

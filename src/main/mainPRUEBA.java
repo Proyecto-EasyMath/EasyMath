@@ -26,45 +26,4 @@ public class mainPRUEBA{
         } while (input != "salir");
 
     }
-
-
-    //OPERACIONES MATEMATICAS
-    public double SUMAR(double a, double b){
-        double c = a + b;
-        return c;
-    }
-    public double RESTAR(double a, double b){
-        double c = a - b;
-        return c;
-    }
-    public double DIVIDIR(double a, double b){
-        double c = a / b;
-        return c;
-    }
-    public double MULTIPLICAR(double a, double b){
-        double c = a * b;
-        return c;
-    }
-    public void variableConstante(String variable, double valor){
-        System.out.println(variable + " = " + valor);
-    }
-    //OPERACIONES CON PRIORIDAD
-    public void PRIMERO(double a, double b, String operador){
-        switch (operador) {
-            case "+":
-                System.out.println(SUMAR(a, b));
-                break;
-            case "-":
-                System.out.println(RESTAR(a, b));
-                break;
-            case "/":
-                System.out.println(DIVIDIR(a, b));
-                break;
-            case "*":
-                System.out.println(MULTIPLICAR(a, b));
-                break;
-            default:
-                System.out.println("Operador no reconocido");
-        }
-    }
 }
