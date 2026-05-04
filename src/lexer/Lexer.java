@@ -20,7 +20,7 @@ public class Lexer {
             } else if (matcher.group("PARENR") != null) {
                 tokens.add(new Token(TokenType.PAREN_CIERRA, ")"));
             } else if (matcher.group("OP") != null) {
-                    tokens.add(new Token(TokenType.OPERADOR, "+")); 
+                tokens.add(new Token(TokenType.OPERADOR, matcher.group("OP")));
             } else if (matcher.group("SKIP") != null) {
                 continue; // Ignoramos los espacios
             } else {
