@@ -1,4 +1,5 @@
 package parser;
+import evaluador.MemoriaVariable;
 import java.util.*;
 import lexer.*;
 import lexer.Token.TokenType;
@@ -6,87 +7,73 @@ import lexer.Token.TokenType;
 public class ValidadorMatematico {
     private List<Token> tokens;
     private int pos = 0;
+    private MemoriaVariable memoria;
+
+    public ValidadorMatematico(MemoriaVariable memoria) {
+        this.memoria = memoria;
+    }
 
     public void validar(List<Token> tokens) throws Exception {
         this.tokens = tokens;
         this.pos = 0;
+        if (tokens.isEmpty()) return;
         parseExpression();
-        if (pos < tokens.size() - 1) throw new Exception("Contenido inesperado al final.");
     }
 
     private void parseExpression() throws Exception {
-        Token t = tokens.get(pos);
-        
-        if (t.type == TokenType.ID) { // Identifica una funcion
+        Token t = lookahead();
+        if (t.type == TokenType.ID) {
             validarID();
-        } else if (t.type == TokenType.NUM) { // De no ser una funcion, salta a ser una varible y lee su valor
+        } else if (t.type == TokenType.NUM) {
             match(TokenType.NUM);
         } else {
-            throw new Exception("Se esperaba un identificador o número en la posicion " + pos);
+            throw new Exception("Se esperaba número o identificador en pos " + pos);
         }
-
-    }
-    private void parseFunctionArgs() throws Exception {
-        match(TokenType.PAREN_ABRE);
-        
-        // Validar si la función está vacía o le falta un dato tras un operador
-        if (lookahead().type == TokenType.PAREN_CIERRA) {
-            throw new Exception("La función no contiene numeros ni operadores con los que trabajar");
-        }
-        while (lookahead().type != TokenType.PAREN_CIERRA) {
-            parseExpression(); // Recursión para argumentos complejos
-            if (lookahead().type == TokenType.OPERADOR) {
-                match(TokenType.OPERADOR);
-                // Si después de una operador sigue un cierre de paréntesis, falta un dato
-                if (lookahead().type == TokenType.PAREN_CIERRA) {
-                    throw new Exception("¡CASI! Se esperaba un número/variable después del operador [+, -, /, *] en la posicion: " + pos);
-                }
-                else if (lookahead().type == TokenType.OPERADOR) {
-                    throw new Exception("¡Operador duplicado! [+, -, /, *]" + "\n" 
-                    + "SE RECOMIENDA: Eliminar operador sobrante en posicion: " + (pos+1));
-                }
-            } else if (lookahead().type != TokenType.PAREN_CIERRA) {
-                throw new Exception("Se esperaba un operador [+, -, *, /] o el parentesis de cierre [')']");
-            }
-        }
-        match(TokenType.PAREN_CIERRA);
-        System.out.println("¡Sintaxis valido!");
     }
 
-    // OBTIENE QUE TOKEN ES EL SIGUIENTE A EVALUAR SIN MOVERSE DEL ACTUAL
-    private Token lookahead() {
-        if (pos < tokens.size()) return tokens.get(pos);
-        return new Token(TokenType.EOF, "");
-    }
-
-    // VERIFICA EL TIPO DE TOKEN
-    private void match(TokenType type) throws Exception {
-        if (lookahead().type == type) pos++;
-        else throw new Exception("Se esperaba un parentesis de apertura en posicion: " + pos + "\n"
-            + "SE RECOMIENDA: Tras colocar la funcion agregar " + "(" + "\n"
-            + "POR EJEMPLO: SUMAR(");
-    } 
-
-    // VALIDA SI ES UNA OPERACION O UNA VARIBLE
     private void validarID() throws Exception {
         Token t = tokens.get(pos);
         String nombre = t.value;
 
-        if(nombre.equals("salir")){
+        if (nombre.equals("VALOR")) {
+            match(TokenType.ID);
+            match(TokenType.PAREN_ABRE);
+            String varNombre = match(TokenType.ID).value;
+            match(TokenType.COMA); // Asegúrate de tener COMA en tu Lexer
+            double varValor = Double.parseDouble(match(TokenType.NUM).value);
+            match(TokenType.PAREN_CIERRA);
+            memoria.asignar(varNombre, varValor);
+        } else if (esFuncion(nombre)) {
+            match(TokenType.ID);
+            parseFunctionArgs();
         } else {
-            if(esFuncion(nombre)){
-                System.out.println("Es una operacion: " + nombre);
-                match(TokenType.ID);
-                parseFunctionArgs();
-            } else{
-                System.out.println("Es una variable: " + nombre);
-                match(TokenType.ID);
-            }
+            memoria.obtenerValor(nombre); // Verifica si existe
+            match(TokenType.ID);
         }
     }
-    
-    // LISTA DE PALABRAS PARA IDENTIFICAR TOKEN DE OPERACION
-    private boolean esFuncion(String nombre){
-        return nombre.equals("OPERACION") || nombre.equals("SUMAR") || nombre.equals("RESTAR") || nombre.equals("MULTIPLICAR") || nombre.equals("DIVIDIR") || nombre.equals("PRIMERO");
+
+    private void parseFunctionArgs() throws Exception {
+        match(TokenType.PAREN_ABRE);
+        while (lookahead().type != TokenType.PAREN_CIERRA) {
+            parseExpression();
+            if (lookahead().type == TokenType.OPERADOR) {
+                match(TokenType.OPERADOR);
+            }
+        }
+        match(TokenType.PAREN_CIERRA);
+    }
+
+    private boolean esFuncion(String n) {
+    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION").contains(n);
+    }
+
+    private Token lookahead() {
+        return (pos < tokens.size()) ? tokens.get(pos) : new Token(TokenType.EOF, "");
+    }
+
+    private Token match(TokenType tipo) throws Exception {
+        Token t = lookahead();
+        if (t.type == tipo) { pos++; return t; }
+        throw new Exception("Se esperaba " + tipo + " pero llegó " + t.type);
     }
 }
