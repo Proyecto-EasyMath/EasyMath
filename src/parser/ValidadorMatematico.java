@@ -35,6 +35,9 @@ public class ValidadorMatematico {
         Token t = tokens.get(pos);
         String nombre = t.value;
 
+        if (nombre.equalsIgnoreCase("AYUDA")) {
+            match(TokenType.ID);
+        }
         if (nombre.equals("VALOR")) {
             match(TokenType.ID);
             match(TokenType.PAREN_ABRE);
@@ -64,7 +67,7 @@ public class ValidadorMatematico {
     }
 
     private boolean esFuncion(String n) {
-    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION").contains(n);
+    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION","AYUDA").contains(n);
     }
 
     private Token lookahead() {

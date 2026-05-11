@@ -2,6 +2,7 @@ package main;
 
 import evaluador.Evaluador;
 import evaluador.MemoriaVariable;
+import infoAyuda.InfoAyuda;
 import java.util.List;
 import java.util.Scanner;
 import lexer.*;
@@ -22,6 +23,12 @@ public class Main {
             String entrada = lector.nextLine().trim();
 
             if (entrada.equalsIgnoreCase("salir")) break;
+
+            if (entrada.equalsIgnoreCase("AYUDA")) {
+                InfoAyuda.mostrarAyuda();
+                continue;
+            }
+
             if (entrada.isEmpty()) continue;
 
             try {

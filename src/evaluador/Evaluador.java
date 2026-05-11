@@ -65,6 +65,7 @@ public class Evaluador {
             case "DIVIDIR": return "/";
             case "OPERACION": return null;
             case "DIME": return null;
+            case "AYUDA": return null;
             default: return null;
         }   
     }
@@ -80,7 +81,7 @@ public class Evaluador {
     }
 
     private boolean esFuncion(String n) {
-    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION").contains(n);
+    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION","AYUDA").contains(n);
     }
 
     private Token consume(TokenType tipo) throws Exception {
