@@ -46,7 +46,9 @@ public class Evaluador {
             
             // Validar que el operador sea el de la función (ej. SUMAR solo acepta +)
             if (opEsperado != null && !opActual.equals(opEsperado)) {
-                throw new Exception(nombre + " no acepta el operador " + opActual);
+                throw new Exception(nombre + " no acepta el operador " + opActual + "\n"
+                                    + "[SOLUCION] Cambia el operador por el necesario"
+                );
             }
 
             double siguiente = calcularExpresion();

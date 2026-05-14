@@ -27,7 +27,9 @@ public class ValidadorMatematico {
         } else if (t.type == TokenType.NUM) {
             match(TokenType.NUM);
         } else {
-            throw new Exception("Se esperaba número o identificador en pos " + pos);
+            throw new Exception("Se esperaba número o identificador en pos " + pos 
+                                + "[SOLUCION] Utilice los identificadores empleables y revise los números que usó"
+            );
         }
     }
 

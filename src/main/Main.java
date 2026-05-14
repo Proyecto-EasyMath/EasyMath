@@ -16,7 +16,7 @@ public class Main {
         Evaluador motor = new Evaluador(memoria);
 
         System.out.println("=== EASYMATH COMPILER v1.1 ===");
-        System.out.println("Comandos: VALOR(var, num), DIME(var), SUMAR(a+b), salir\n");
+        System.out.println("Comandos: Escribe 'AYUDA' para ver las palabras clave disponibles, salir\n");
 
         while (true) {
             System.out.print("EASYMATH > ");
@@ -24,7 +24,7 @@ public class Main {
 
             if (entrada.equalsIgnoreCase("salir")) break;
 
-            if (entrada.equalsIgnoreCase("AYUDA")) {
+            if (entrada.equalsIgnoreCase("ayuda")) {
                 InfoAyuda.mostrarAyuda();
                 continue;
             }
