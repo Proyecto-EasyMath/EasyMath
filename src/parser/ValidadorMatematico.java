@@ -27,7 +27,9 @@ public class ValidadorMatematico {
         } else if (t.type == TokenType.NUM) {
             match(TokenType.NUM);
         } else {
-            throw new Exception("Se esperaba número o identificador en pos " + pos);
+            throw new Exception("Se esperaba número o identificador en pos " + pos 
+                                + "[SOLUCION] Utilice los identificadores empleables y revise los números que usó"
+            );
         }
     }
 
@@ -35,6 +37,9 @@ public class ValidadorMatematico {
         Token t = tokens.get(pos);
         String nombre = t.value;
 
+        if (nombre.equalsIgnoreCase("AYUDA")) {
+            match(TokenType.ID);
+        }
         if (nombre.equals("VALOR")) {
             match(TokenType.ID);
             match(TokenType.PAREN_ABRE);
@@ -64,7 +69,7 @@ public class ValidadorMatematico {
     }
 
     private boolean esFuncion(String n) {
-    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION").contains(n);
+    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION","AYUDA").contains(n);
     }
 
     private Token lookahead() {

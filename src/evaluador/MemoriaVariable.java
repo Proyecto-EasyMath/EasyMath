@@ -10,7 +10,9 @@ public class MemoriaVariable {
 
     public double obtenerValor(String nombre) throws Exception {
         if (memoria.containsKey(nombre)) return memoria.get(nombre);
-        throw new Exception("La variable '" + nombre + "' no existe.");
+        throw new Exception("La variable '" + nombre + "' no existe." + "\n"
+                            + "[SOLUCION] Crea la variable con VALOR(" + nombre + "," + "valor)" + "\n"
+        );
     }
 
     public void mostrarVariables() {

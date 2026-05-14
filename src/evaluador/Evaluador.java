@@ -46,7 +46,9 @@ public class Evaluador {
             
             // Validar que el operador sea el de la función (ej. SUMAR solo acepta +)
             if (opEsperado != null && !opActual.equals(opEsperado)) {
-                throw new Exception(nombre + " no acepta el operador " + opActual);
+                throw new Exception(nombre + " no acepta el operador " + opActual + "\n"
+                                    + "[SOLUCION] Cambia el operador por el necesario"
+                );
             }
 
             double siguiente = calcularExpresion();
@@ -65,6 +67,7 @@ public class Evaluador {
             case "DIVIDIR": return "/";
             case "OPERACION": return null;
             case "DIME": return null;
+            case "AYUDA": return null;
             default: return null;
         }   
     }
@@ -80,7 +83,7 @@ public class Evaluador {
     }
 
     private boolean esFuncion(String n) {
-    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION").contains(n);
+    return Arrays.asList("SUMAR", "RESTAR", "MULTIPLICAR", "DIVIDIR", "PRIMERO", "DIME", "OPERACION","AYUDA").contains(n);
     }
 
     private Token consume(TokenType tipo) throws Exception {

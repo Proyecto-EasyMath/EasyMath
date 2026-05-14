@@ -2,6 +2,7 @@ package main;
 
 import evaluador.Evaluador;
 import evaluador.MemoriaVariable;
+import infoAyuda.InfoAyuda;
 import java.util.List;
 import java.util.Scanner;
 import lexer.*;
@@ -15,13 +16,19 @@ public class Main {
         Evaluador motor = new Evaluador(memoria);
 
         System.out.println("=== EASYMATH COMPILER v1.1 ===");
-        System.out.println("Comandos: VALOR(var, num), DIME(var), SUMAR(a+b), salir\n");
+        System.out.println("Comandos: Escribe 'AYUDA' para ver las palabras clave disponibles, salir\n");
 
         while (true) {
             System.out.print("EASYMATH > ");
             String entrada = lector.nextLine().trim();
 
             if (entrada.equalsIgnoreCase("salir")) break;
+
+            if (entrada.equalsIgnoreCase("ayuda")) {
+                InfoAyuda.mostrarAyuda();
+                continue;
+            }
+
             if (entrada.isEmpty()) continue;
 
             try {
