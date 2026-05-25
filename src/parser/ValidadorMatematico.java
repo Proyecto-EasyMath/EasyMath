@@ -44,7 +44,7 @@ public class ValidadorMatematico {
             match(TokenType.ID);
             match(TokenType.PAREN_ABRE);
             String varNombre = match(TokenType.ID).value;
-            match(TokenType.COMA); // Asegúrate de tener COMA en tu Lexer
+            match(TokenType.COMA);
             double varValor = Double.parseDouble(match(TokenType.NUM).value);
             match(TokenType.PAREN_CIERRA);
             memoria.asignar(varNombre, varValor);
@@ -52,7 +52,7 @@ public class ValidadorMatematico {
             match(TokenType.ID);
             parseFunctionArgs();
         } else {
-            memoria.obtenerValor(nombre); // Verifica si existe
+            memoria.obtenerValor(nombre);
             match(TokenType.ID);
         }
     }
