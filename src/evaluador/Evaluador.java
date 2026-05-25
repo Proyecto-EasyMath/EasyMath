@@ -40,7 +40,7 @@ public class Evaluador {
         double acumulado = calcularExpresion();
         String opEsperado = operadorDe(nombre);
 
-        // Bucle para infinitos argumentos
+        // Bucle para agregar argumentos infinitos
         while (tokens.get(pos).type != TokenType.PAREN_CIERRA) {
             String opActual = consume(TokenType.OPERADOR).value;
             

@@ -7,7 +7,7 @@ public class Lexer {
     public static List<Token> tokenize(String input) throws Exception {
         List<Token> tokens = new ArrayList<>();
         
-        Pattern pattern = Pattern.compile("(?<NUM>\\d+(\\.\\d+)?)|(?<ID>[a-zA-Z_][a-zA-Z0-9_]*)|(?<OP>[\\+\\-\\*\\/])|(?<PARENL>\\()|(?<PARENR>\\))|(?<COMMA>,)|(?<SKIP>\\s+)");
+        Pattern pattern = Pattern.compile("(?<NUM>\\d+(\\.\\d+)?)|(?<ID>[a-zA-Z_][a-zA-Z0-9_]*)|(?<OP>[\\+\\-\\*\\/])|(?<PARENL>\\()|(?<PARENR>\\))|(?<COMMA>,)|(?<SKIP>\\s+)|(?<ERROR>.)");
         Matcher matcher = pattern.matcher(input);
 
         while (matcher.find()) {
@@ -26,7 +26,7 @@ public class Lexer {
             } else if (matcher.group("SKIP") != null) {
                 continue;
             } else {
-                throw new Exception("Carácter no reconocido: " + matcher.group());
+                throw new Exception("Caracter no reconocido: " + matcher.group());
             }
         }
         

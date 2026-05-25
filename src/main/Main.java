@@ -34,15 +34,13 @@ public class Main {
             try {
                 List<Token> tokens = Lexer.tokenize(entrada);
                 
-                // 1. Validamos y ejecutamos asignaciones (VALOR)
                 validador.validar(tokens);
 
-                // 2. Si es una consulta o cálculo, evaluamos y mostramos
                 if (entrada.toUpperCase().startsWith("VALOR")) {
                     System.out.println("[SISTEMA] Variable guardada correctamente.");
                 } else {
                     double res = motor.evaluar(tokens);
-                    // Si el usuario usó DIME, el resultado aparecerá aquí
+
                     System.out.println("[RESPUESTA] " + res);
                 }
 
