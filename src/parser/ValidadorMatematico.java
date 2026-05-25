@@ -27,8 +27,8 @@ public class ValidadorMatematico {
         } else if (t.type == TokenType.NUM) {
             match(TokenType.NUM);
         } else {
-            throw new Exception("Se esperaba número o identificador en pos " + pos 
-                                + "[SOLUCION] Utilice los identificadores empleables y revise los números que usó"
+            throw new Exception("Se esperaba numero o identificador en pos " + pos 
+                                + "\n[SOLUCION] Utilice los identificadores empleables y revise los numeros que uso"
             );
         }
     }
@@ -60,6 +60,10 @@ public class ValidadorMatematico {
     private void parseFunctionArgs() throws Exception {
         match(TokenType.PAREN_ABRE);
         while (lookahead().type != TokenType.PAREN_CIERRA) {
+            if (lookahead().type == TokenType.EOF) {
+                throw new Exception("Se esperaba un parentesis de cierre \")\" para finalizar la instruccion\n"
+                                    + "[SOLUCION SUGERIDA] Asegurate de cerrar todos los parentesis abiertos");
+            }
             parseExpression();
             if (lookahead().type == TokenType.OPERADOR) {
                 match(TokenType.OPERADOR);
